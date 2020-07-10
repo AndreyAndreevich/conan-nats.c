@@ -6,14 +6,14 @@
 
 ## Basic setup
 
-    $ conan install . nats.c/2.1.0@andrbek/testing
+    $ conan install . nats.c/2.1.0@andrbek/stable
     
 ## Project setup
 
 If you handle multiple dependencies in your project is better to add a *conanfile.txt*
     
     [requires]
-      nats.c/2.1.0@andrbek/testing
+      nats.c/2.1.0@andrbek/stable
 
     [options]
       nats.c:shared=True                              # default is False

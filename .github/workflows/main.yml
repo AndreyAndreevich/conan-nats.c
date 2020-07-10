@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 env:
   CONAN_REFERENCE: "nats.c/2.1.0"
-  CONAN_BRANCH: "andrbek/testing"
+  CONAN_BRANCH: "andrbek/stable"
   CONAN_UPLOAD: "https://api.bintray.com/conan/andrbek/conan"
   CONAN_REMOTE: "andrbek"
   CONAN_USERNAME: "andreyandreevich"
