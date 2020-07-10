@@ -49,8 +49,7 @@ class civetwebConan(ConanFile):
                                  'CMakeLists.txt'))
 
     def config_options(self):
-        if self.settings.os == 'Windows':
-            del self.options.fPIC
+        pass
 
     def _configure_cmake(self):
         cmake = CMake(self)
@@ -82,19 +81,6 @@ class civetwebConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
-        #if self.settings.os == "Linux":
-        #    self.cpp_info.libs.extend(["dl", "rt", "pthread"])
-        #    if self.options.enable_cxx:
-        #        self.cpp_info.libs.append("m")
-        #elif self.settings.os == "Macos":
-        #    self.cpp_info.exelinkflags.append("-framework Cocoa")
-        #    self.cpp_info.sharedlinkflags = self.cpp_info.exelinkflags
-        #    self.cpp_info.defines.append("USE_COCOA")
-        #elif self.settings.os == "Windows":
-        #    self.cpp_info.libs.append("Ws2_32")
-        #if self.options.enable_websockets:
-        #    self.cpp_info.defines.append("USE_WEBSOCKET")
-        #if self.options.enable_ipv6:
-        #    self.cpp_info.defines.append("USE_IPV6")
-        #if not self.options.enable_ssl:
-        #    self.cpp_info.defines.append("NO_SSL")
+
+        if self.settings.os == 'Linux':
+            self.cpp_info.libs.extend(["dl", "rt", "pthread"])
