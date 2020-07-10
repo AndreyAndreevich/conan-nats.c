@@ -1,0 +1,45 @@
+name: CI
+
+on: [push, pull_request]
+
+env:
+  CONAN_REFERENCE: "nats.c/2.1.0"
+  CONAN_BRANCH: "andrbek/testing"
+  CONAN_UPLOAD: "https://api.bintray.com/conan/andrbek/conan"
+  CONAN_REMOTE: "andrbek"
+  CONAN_USERNAME: "andreyandreevich"
+  BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python 3.6
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.6'
+        architecture: 'x64'
+
+    - name: Downolad conan
+      run: |
+        pip install conan --upgrade
+        pip install conan_package_tools
+
+    - name: Install
+      run: |
+        conan export . $CONAN_BRANCH
+        conan export . demo/testing
+        conan install $CONAN_REFERENCE@demo/testing --build
+
+    - name: Test
+      run: conan test test_package $CONAN_REFERENCE@demo/testing
+
+    - name: Configure remote
+      run: |
+        conan remote add $CONAN_REMOTE $CONAN_UPLOAD --insert
+        conan user -p $BINTRAY_API_KEY -r $CONAN_REMOTE $CONAN_USERNAME
+
+    - name: Push
+      run: conan upload $CONAN_REFERENCE@$CONAN_BRANCH --all -r=$CONAN_REMOTE
